@@ -23,5 +23,5 @@ if is_present "$NEW_MERGE_NUMBERS"; then
   NEW_MERGE_BRANCH=merge-`echo $NEW_MERGE_NUMBERS | sed -E 's/ +/-/g'`
   COMMAND="$COMMAND && git checkout -b $NEW_MERGE_BRANCH && git merge -m 'merge' $BRANCH_NAMES"
 fi
-
+COMMAND="$COMMAND && git checkout $CURRENT_BRANCH"
 doit "$COMMAND"

@@ -30,5 +30,6 @@ if is_present "$MERGE_BRANCH"; then
 else
   COMMAND="$CMD1 && $CMD3 && $CMD4"
 fi
+COMMAND="$COMMAND && git checkout $CURRENT_BRANCH"
 
 doit "$COMMAND"
