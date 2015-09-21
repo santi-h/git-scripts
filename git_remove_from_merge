@@ -1,0 +1,27 @@
+source helper.sh
+
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+assert_development_branch "$CURRENT_BRANCH"
+CURRENT_BRANCH_NUMBER=$(get_branch_number "$CURRENT_BRANCH")
+CURRENT_MERGE_BRANCH=$(get_merge_branch_name)
+
+if is_blank "$CURRENT_MERGE_BRANCH"; then
+  echo "There's no merge branch"
+  exit -1
+fi
+
+for branch_number in $(get_branch_numbers_from_merge_branch "$CURRENT_MERGE_BRANCH"); do
+  branch_name=`git branch | grep -E "^\s*$branch_number-"`
+  if is_present "$branch_name"; then
+    NEW_MERGE_NUMBERS="$NEW_MERGE_NUMBERS $branch_number"
+    BRANCH_NAMES="$BRANCH_NAMES $branch_name"
+  fi
+done
+
+COMMAND="git checkout master && git branch -D $CURRENT_MERGE_BRANCH"
+if is_present "$NEW_MERGE_NUMBERS"; then
+  NEW_MERGE_BRANCH=merge-`echo $NEW_MERGE_NUMBERS | sed -E 's/ +/-/g'`
+  COMMAND="$COMMAND && git checkout -b $NEW_MERGE_BRANCH && git merge -m 'merge' $BRANCH_NAMES"
+fi
+
+doit "$COMMAND"

@@ -1,0 +1,2 @@
+# opens the added and modified files in the last commit in sublime
+subl $(git log --pretty=oneline -1 --name-status | awk '/[M|A]\t/ {print $2}')

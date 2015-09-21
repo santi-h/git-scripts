@@ -1,0 +1,1 @@
+git log --format=%B -1 | tr -d '\n'

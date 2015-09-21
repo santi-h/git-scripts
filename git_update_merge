@@ -1,0 +1,19 @@
+source helper.sh
+
+MERGE_BRANCH=$(get_merge_branch_name)
+BRANCH_NUMBERS=`echo $MERGE_BRANCH | sed -E 's/[^0-9]+/ /g'`
+NEW_BRANCH_NUMBERS=""
+BRANCH_NAMES=""
+
+for branch_number in $BRANCH_NUMBERS; do
+  branch_name=`git branch | egrep -o "\s+$branch_number-.*"`
+  if is_present "$branch_name"; then
+    NEW_BRANCH_NUMBERS="$NEW_BRANCH_NUMBERS $branch_number"
+    BRANCH_NAMES="$BRANCH_NAMES $branch_name"
+  fi
+done
+
+NEW_MERGE_BRANCH=merge-`echo $NEW_BRANCH_NUMBERS | sed -E 's/ +/-/g'`
+COMMAND="git checkout master && git branch -D $MERGE_BRANCH && git checkout -b $NEW_MERGE_BRANCH && git merge -m 'merge' $BRANCH_NAMES"
+
+doit "$COMMAND"

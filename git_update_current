@@ -1,0 +1,6 @@
+source helper.sh
+
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+COMMAND="git checkout master && git pull origin master && git checkout $CURRENT_BRANCH && git rebase master"
+
+doit "$COMMAND"

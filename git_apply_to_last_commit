@@ -1,0 +1,4 @@
+git_last_comment | pbcopy
+git remove-last-commit
+git add -u
+git commit -m "$(pbpaste)"

@@ -1,0 +1,15 @@
+BRANCH_NAME=$(git current)
+CMD1="git fetch origin $BRANCH_NAME"
+CMD2="git branch --set-upstream-to=origin/$BRANCH_NAME"
+
+if [ "$BASH_ARGV" == "do" ]
+then
+  echo $CMD1
+  $CMD1
+  echo $CMD2
+  $CMD2
+else
+  echo $CMD1
+  echo $CMD2
+  echo "(command not run, add 'do' at the end to run it)"
+fi
