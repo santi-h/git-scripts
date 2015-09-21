@@ -1,4 +1,4 @@
-git_last_comment | pbcopy
-git remove-last-commit
+COMMENT=`git log --format=%B -1`
+git reset --soft HEAD~1
 git add -u
-git commit -m "$(pbpaste)"
+git commit -m "$COMMENT"
