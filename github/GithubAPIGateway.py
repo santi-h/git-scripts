@@ -11,6 +11,14 @@ class GithubAPIGateway(APIGateway):
       'list_issue': {
         'path': '/repos/{owner}/{repo}/issues/{number}',
         'method': 'GET'
+      },
+      'user': {
+        'path': '/user',
+        'method': 'GET'
+      },
+      'create_issue': {
+        'path': '/repos/{owner}/{repo}/issues',
+        'method': 'POST'
       }
     }
     self._common_headers = {
