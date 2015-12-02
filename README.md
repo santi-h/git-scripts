@@ -37,7 +37,7 @@ $ git branch
 * 7441-shop-find-by-phone
   7795-vice-beta
   master
-  
+
 $ git_add_to_merge do
 
 $ git branch
@@ -90,3 +90,6 @@ $ git branch
   7795-vice-beta
   master
 ```
+
+#### git_repull
+Deletes the current branch and creates a new local one that looks exactly like origin

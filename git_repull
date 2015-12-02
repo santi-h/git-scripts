@@ -1,0 +1,12 @@
+source helper.sh
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+assert_development_branch "$CURRENT_BRANCH"
+
+# MAKE SURE ORIGIN EXISTS
+git rev-parse --verify origin/$CURRENT_BRANCH > /dev/null 2>&1 #$CURRENT_BRANCH
+if [[ $? != 0 ]]; then
+  echo "origin/$CURRENT_BRANCH must exist"
+  exit -1
+fi
+
+doit "git checkout master && git branch -D $CURRENT_BRANCH && git fetch origin $CURRENT_BRANCH && git checkout $CURRENT_BRANCH"
