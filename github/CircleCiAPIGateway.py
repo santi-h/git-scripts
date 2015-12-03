@@ -11,6 +11,10 @@ class CircleCiAPIGateway(APIGateway):
       'cancel_build': {
         'path': '/project/{username}/{project}/{build_num}/cancel',
         'method': 'POST'
+      },
+      'new_build': {
+        'path': '/project/{username}/{project}/tree/{branch}',
+        'method': 'POST'
       }
     }
     self._common_headers = {
