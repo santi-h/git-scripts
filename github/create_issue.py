@@ -12,7 +12,8 @@ issue = api.call('create_issue', owner='bodyshopbidsdotcom', repo='snapsheet', d
   'assignee': username
 })
 
-branch_name = str(issue['number']) + '-' + re.sub('[\s+\:]+', '-', issue['title'].strip().lower())
+branch_name = str(issue['number']) + '-' + re.sub('[\s+\:\.\,\;]+', '-', issue['title'].strip().lower())[0:30].strip('-')
 
 git = Repo(os.getcwd()).git
 git.checkout('HEAD', b=branch_name)
+print issue['html_url']
