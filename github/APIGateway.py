@@ -5,10 +5,10 @@ import json
 class APIGateway(object):
   def call(self, api, **args):
     if self.method(api) == 'GET':
-      result = requests.get(self.api_full_path(api, **args), headers=self._common_headers)
+      result = requests.get(self.api_full_path(api, **args), headers=self._common_headers, params=self._common_params)
       return json.loads(result.text)
     elif self.method(api) == 'POST':
-      result = requests.post(self.api_full_path(api, **args), headers=self._common_headers, json=args.get('data'))
+      result = requests.post(self.api_full_path(api, **args), headers=self._common_headers, json=args.get('data'), params=self._common_params)
       return json.loads(result.text)
 
     return None

@@ -24,3 +24,4 @@ class GithubAPIGateway(APIGateway):
     self._common_headers = {
       'Authorization': 'token {0}'.format(args['token'])
     }
+    self._common_params = {}
