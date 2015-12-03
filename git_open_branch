@@ -1,0 +1,2 @@
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+open "https://github.com/bodyshopbidsdotcom/snapsheet/compare/$CURRENT_BRANCH?expand=1"
