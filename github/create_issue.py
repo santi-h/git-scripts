@@ -1,19 +1,31 @@
 from GithubAPIGateway import GithubAPIGateway
-from git import Repo
+import Helper
 import os
 import sys
-import re
+import argparse
 
-title = sys.argv[1]
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", "--description")
+parser.add_argument("title")
+args = parser.parse_args()
+if len(args.title) < 5:
+  print "The title should be 5 characters or longer"
+  parser.print_usage()
+  sys.exit(2)
+
 api = GithubAPIGateway(token=os.environ['GITHUB_TOKEN'])
 username = api.call('user')[0]['login']
-issue = api.call('create_issue', owner='bodyshopbidsdotcom', repo='snapsheet', data={
-  'title': title,
+
+data = {
+  'title': args.title,
   'assignee': username
-})[0]
+}
 
-branch_name = str(issue['number']) + '-' + re.sub('[\s+\:\.\,\;]+', '-', issue['title'].strip().lower())[0:30].strip('-')
+if args.description is not None:
+  data.update(body=args.description)
 
-git = Repo(os.getcwd()).git
-git.checkout('HEAD', b=branch_name)
+issue = api.call('create_issue', owner='bodyshopbidsdotcom', repo='snapsheet', data=data)[0]
+
+branch_name = Helper.branch_name(issue)
+Helper.create_branch(branch_name)
 print issue['html_url']
