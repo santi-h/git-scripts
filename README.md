@@ -1,6 +1,21 @@
 # git-scripts
 Scripts I use for everyday development
 
+#### INSTALLATION
+1- install gitpython 
+```
+$ sudo pip install gitpython
+```
+2- Set the following environment variables in your .zshrc, .bashrc, or whatever shell you use:
+```shell
+export GITHUB_TOKEN="your token"
+export CIRCLE_TOKEN="your token"
+export WRIKE_CLIENT_ID="3OvkuuZq"
+export WRIKE_CLIENT_SECRET="ykGrlthLzJemS9t3E32MnNOmaTwzVMYWTdjub97L8E3VwBCuSX6zkNXdM1pP2VQi"
+```
+3- Add the root directory to PATH
+
+
 #### git_apply_to_last_commit
 Applies current changes (stashed and uncommited) to the last commit.
 ##### example
