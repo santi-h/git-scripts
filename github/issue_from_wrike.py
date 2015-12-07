@@ -62,7 +62,7 @@ def create_data_file(authentication_code):
 def create_issue(task):
   api = GithubAPIGateway(token=os.environ['GITHUB_TOKEN'])
   username = api.call('user')[0]['login']
-  body = task['permalink'] + '\n\n' + task['description']
+  body = '### {0}\n___\n\n{1}'.format(task['permalink'], task['description'])
   issue = api.call('create_issue', owner='bodyshopbidsdotcom', repo='snapsheet', data={
     'title': task['title'],
     'assignee': username,
@@ -86,7 +86,7 @@ def api_wrapper(api, auth_data, method, **args):
     })[0]
 
     with open(get_data_file_filepath(), 'w') as outfile:
-        json.dump(data, outfile)
+      json.dump(data, outfile)
 
     api.update_common_headers(data)
     result = api.call(method, **args)[0]
