@@ -20,3 +20,6 @@ def owner_and_repo():
     repo = match.group(2).encode('ascii')
 
   return owner, repo
+
+def current_branch():
+  return str(git.Repo(os.getcwd()).active_branch)
