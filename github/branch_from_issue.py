@@ -3,15 +3,15 @@ from git import Repo
 import os
 import sys
 import re
+import Helper
 
 api = GithubAPIGateway(token=os.environ['GITHUB_TOKEN'])
 issue = None
+owner, repo = Helper.owner_and_repo()
 if len(sys.argv) <= 1:
-  issue = api.call('list_issues', org='bodyshopbidsdotcom')[0][0]
+  issue = api.call('list_issues', org=owner)[0][0]
 else:
-  issue = api.call('list_issue', owner='bodyshopbidsdotcom', repo='snapsheet', number=sys.argv[1])[0]
+  issue = api.call('list_issue', owner=owner, repo=repo, number=sys.argv[1])[0]
 
-branch_name = str(issue['number']) + '-' + re.sub('[\s+\:\.\,\;]+', '-', issue['title'].strip().lower())[0:30].strip('-')
-
-git = Repo(os.getcwd()).git
-git.checkout('HEAD', b=branch_name)
+branch_name = Helper.branch_name(issue)
+Helper.create_branch(branch_name)

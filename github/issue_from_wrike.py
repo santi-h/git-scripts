@@ -9,6 +9,7 @@ import BaseHTTPServer
 import socket
 import json
 import webbrowser
+import Helper
 
 class QuickSocketServer(SocketServer.TCPServer):
   def server_bind(self):
@@ -49,7 +50,8 @@ def get_authentication_code_and_do_it():
 # returns the json info
 def create_data_file(authentication_code):
   api = WrikeAPIGateway()
-  data = api.call('get_token', owner='bodyshopbidsdotcom', repo='snapsheet', params={
+  owner, repo = Helper.owner_and_repo()
+  data = api.call('get_token', owner=owner, repo=repo, params={
     'client_id': os.environ['WRIKE_CLIENT_ID'],
     'client_secret': os.environ['WRIKE_CLIENT_SECRET'],
     'code': authentication_code
@@ -63,7 +65,8 @@ def create_issue(task):
   api = GithubAPIGateway(token=os.environ['GITHUB_TOKEN'])
   username = api.call('user')[0]['login']
   body = '### {0}\n___\n\n{1}'.format(task['permalink'], task['description'])
-  issue = api.call('create_issue', owner='bodyshopbidsdotcom', repo='snapsheet', data={
+  owner, repo = Helper.owner_and_repo()
+  issue = api.call('create_issue', owner=owner, repo=repo, data={
     'title': task['title'],
     'assignee': username,
     'body': body

@@ -24,7 +24,8 @@ data = {
 if args.description is not None:
   data.update(body=args.description)
 
-issue = api.call('create_issue', owner='bodyshopbidsdotcom', repo='snapsheet', data=data)[0]
+owner, repo = Helper.owner_and_repo()
+issue = api.call('create_issue', owner=owner, repo=repo, data=data)[0]
 
 branch_name = Helper.branch_name(issue)
 Helper.create_branch(branch_name)
