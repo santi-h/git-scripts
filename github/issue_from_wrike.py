@@ -64,7 +64,7 @@ def create_data_file(authentication_code):
 def create_issue(task):
   api = GithubAPIGateway(token=os.environ['GITHUB_TOKEN'])
   username = api.call('user')[0]['login']
-  body = '### {0}\n___\n\n{1}'.format(task['permalink'], task['description'])
+  body = '### {0}\n___\n\n{1}'.format(task['permalink'].encode('utf-8'), task['description'].encode('utf-8'))
   owner, repo = Helper.owner_and_repo()
   issue = api.call('create_issue', owner=owner, repo=repo, data={
     'title': task['title'],
