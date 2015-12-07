@@ -1,0 +1,2 @@
+SCRIPT_DIR="$(dirname ${BASH_SOURCE[0]})"
+python $SCRIPT_DIR/github/issue_from_wrike.py "$@"
