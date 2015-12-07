@@ -53,7 +53,7 @@ def create_data_file(authentication_code):
     'client_id': os.environ['WRIKE_CLIENT_ID'],
     'client_secret': os.environ['WRIKE_CLIENT_SECRET'],
     'code': authentication_code
-  })
+  })[0]
   with open(get_data_file_filepath(), 'w') as outfile:
     json.dump(data, outfile)
 
@@ -61,13 +61,13 @@ def create_data_file(authentication_code):
 
 def create_issue(task):
   api = GithubAPIGateway(token=os.environ['GITHUB_TOKEN'])
-  username = api.call('user')['login']
+  username = api.call('user')[0]['login']
   body = task['permalink'] + '\n\n' + task['description']
   issue = api.call('create_issue', owner='bodyshopbidsdotcom', repo='snapsheet', data={
     'title': task['title'],
     'assignee': username,
     'body': body
-  })
+  })[0]
   return issue
 
 def create_branch(issue):
@@ -77,19 +77,19 @@ def create_branch(issue):
   return branch_name
 
 def api_wrapper(api, auth_data, method, **args):
-  result = api.call(method, **args)
-  if result['_status_code'] == 401 and result['error'] == 'not_authorized':
+  result, status = api.call(method, **args)
+  if status == 401 and result['error'] == 'not_authorized':
     data = api.call('refresh_token', params={
       'client_id': os.environ['WRIKE_CLIENT_ID'],
       'client_secret': os.environ['WRIKE_CLIENT_SECRET'],
       'refresh_token': auth_data['refresh_token']
-    })
+    })[0]
 
     with open(get_data_file_filepath(), 'w') as outfile:
         json.dump(data, outfile)
 
     api.update_common_headers(data)
-    result = api.call(method, **args)
+    result = api.call(method, **args)[0]
 
   return result
 
