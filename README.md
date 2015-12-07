@@ -92,4 +92,22 @@ $ git branch
 ```
 
 #### git_repull
-Deletes the current branch and creates a new local one that looks exactly like origin
+Deletes the current branch and creates a new local one that looks exactly like the one in origin
+
+#### git_branch_from_issue [issue_id]
+Creates a new branch from an issue that branches off head. If no argument is provided, it uses the last issue assigned to the current user (the owner of GITHUB_TOKEN). If an argument is provided, it should be the issue id the branch is to be created from.
+
+The name of the branch is going to be ```issue-id```-```issue_name```
+Where ```issue_title``` is the title of the issue
+##### example
+Given there's an issue with id 9544 and title "Fixing memory leak"
+```
+$ git branch
+* master
+
+$ git_branch_from_issue 9544
+
+$ git branch
+* 9544-fixing-memory-leak
+  master
+```
