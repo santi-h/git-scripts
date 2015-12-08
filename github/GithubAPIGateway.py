@@ -25,6 +25,11 @@ class GithubAPIGateway(APIGateway):
         'path': '/repos/{owner}/{repo}/pulls',
         'method': 'POST',
         'valid_status': [201]
+      },
+      'list_pr': {
+        'path': '/repos/{owner}/{repo}/pulls',
+        'method': 'GET',
+        'valid_status': [200]
       }
     }
     self._common_headers = {
