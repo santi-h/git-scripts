@@ -10,7 +10,8 @@ class GithubAPIGateway(APIGateway):
       },
       'list_issue': {
         'path': '/repos/{owner}/{repo}/issues/{number}',
-        'method': 'GET'
+        'method': 'GET',
+        'valid_status': [200]
       },
       'user': {
         'path': '/user',
@@ -19,6 +20,11 @@ class GithubAPIGateway(APIGateway):
       'create_issue': {
         'path': '/repos/{owner}/{repo}/issues',
         'method': 'POST'
+      },
+      'create_pr': {
+        'path': '/repos/{owner}/{repo}/pulls',
+        'method': 'POST',
+        'valid_status': [201]
       }
     }
     self._common_headers = {

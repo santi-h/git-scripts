@@ -1,6 +1,7 @@
 import re
 import requests
 import json
+import sys
 
 class APIGateway(object):
   def call(self, api, **args):
@@ -22,6 +23,11 @@ class APIGateway(object):
     if result is not None:
       ret = json.loads(result.text)
       status = result.status_code
+
+    if status is not None and self._api[api].get('valid_status') is not None and status not in self._api[api]['valid_status']:
+      print "Status: {0}".format(status)
+      print "Response: {0}".format(ret)
+      sys.exit(-1)
 
     return ret, status
 
