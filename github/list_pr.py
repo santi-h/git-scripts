@@ -11,13 +11,17 @@ args = parser.parse_args()
 
 api = GithubAPIGateway(token=os.environ['GITHUB_TOKEN'])
 owner, repo = Helper.owner_and_repo()
-branch = Helper.current_branch()
+branch = str(Helper.current_branch())
 prs = api.call('list_pr', owner=owner, repo=repo, data={
-  'head': owner + ':' + str(branch)
+  'head': branch
 })[0]
+url = None
+for pr in prs:
+  if pr['head']['ref'] == branch:
+    url = pr['html_url']
+    break
 
-if len(prs) > 0:
-  url = prs[0]['html_url']
+if url is not None:
   print url
   if args.open:
     webbrowser.open(url)
