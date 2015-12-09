@@ -4,6 +4,7 @@ import os
 import sys
 import argparse
 import webbrowser
+import urllib
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--title")
@@ -33,13 +34,15 @@ owner, repo = Helper.owner_and_repo()
 if title is None:
   issue = api.call('list_issue', owner=owner, repo=repo, number=issue_number)[0]
   title = '{0} {1}'.format(issue_number, issue['title'])
-pr, status = api.call('create_pr', owner=owner, repo=repo, data={
-  'title': title,
-  'head': str(branch),
-  'base': 'master',
-  'body': 'closes #{0}'.format(issue_number)
-})
 
-print pr['html_url']
-if args.open:
-  webbrowser.open(pr['html_url'])
+url = "https://github.com/{owner}/{repo}/compare/{branch}?expand=1&{params}".format(
+  owner = owner,
+  repo = repo,
+  branch = branch,
+  params = urllib.urlencode({
+    'title': title,
+    'body': body
+  })
+)
+
+webbrowser.open(url)
