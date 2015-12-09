@@ -26,7 +26,7 @@ issue_number = Helper.issue_number_from_branch()
 if args.body is not None:
   body = args.body
 else:
-  body = 'closes #{0}'.format(issue_number)
+  body = 'Closes #{0}'.format(issue_number)
 
 branch = Helper.push_private()
 api = GithubAPIGateway(token=os.environ['GITHUB_TOKEN'])
