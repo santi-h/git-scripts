@@ -9,7 +9,6 @@ import urllib
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--title")
 parser.add_argument("-b", "--body")
-parser.add_argument("-o", "--open", action="store_true")
 args = parser.parse_args()
 
 title = None

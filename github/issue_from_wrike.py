@@ -10,6 +10,12 @@ import socket
 import json
 import webbrowser
 import Helper
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-n", "--nobranch", action="store_true")
+parser.add_argument("taskid")
+args = parser.parse_args()
 
 class QuickSocketServer(SocketServer.TCPServer):
   def server_bind(self):
@@ -99,13 +105,14 @@ def api_wrapper(api, auth_data, method, **args):
 def do_it(auth_data):
   api = WrikeAPIGateway(token=auth_data['access_token'])
   result = api_wrapper(api, auth_data, 'id', params= {
-    'ids': '[{0}]'.format(sys.argv[1]),
+    'ids': '[{0}]'.format(args.taskid),
     'type': 'ApiV2Task'
   })
   idv3 = result['data'][0]['id']
   task = api_wrapper(api, auth_data, 'get_task', id=idv3)['data'][0]
   issue = create_issue(task)
-  create_branch(issue)
+  if args.nobranch == False:
+    create_branch(issue)
   print issue['html_url']
   return issue['html_url']
 
