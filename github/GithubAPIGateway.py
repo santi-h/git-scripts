@@ -30,6 +30,16 @@ class GithubAPIGateway(APIGateway):
         'path': '/repos/{owner}/{repo}/pulls',
         'method': 'GET',
         'valid_status': [200]
+      },
+      'list_pr_review_comments': {
+        'path': '/repos/{owner}/{repo}/pulls/{number}/comments',
+        'method': 'GET',
+        'valid_status': [200]
+      },
+      'list_issue_comments': {
+        'path': '/repos/{owner}/{repo}/issues/{number}/comments',
+        'method': 'GET',
+        'valid_status': [200]
       }
     }
     self._common_headers = {
