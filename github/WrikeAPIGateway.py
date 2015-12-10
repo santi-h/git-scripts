@@ -137,11 +137,11 @@ class WrikeAPIGateway(APIGateway):
       'refresh_token': self._auth_info['refresh_token']
     })[0]
 
-    with open(_get_auth_file_filepath(), 'w') as outfile:
+    with open(self._get_auth_file_filepath(), 'w') as outfile:
       json.dump(auth_info, outfile)
 
     self._auth_info = auth_info
-    api.update_common_headers(auth_info)
+    self.update_common_headers(auth_info)
 
   def _authenticate_client(self):
     auth_info = self._get_auth_info()
