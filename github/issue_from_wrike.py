@@ -36,3 +36,6 @@ if args.nobranch == False:
   create_branch(issue)
 print issue['html_url']
 api.redirect(issue['html_url'])
+api.call('create_comment_in_task_v3', idv3=task['id'], params={
+  'text': issue['html_url']
+})

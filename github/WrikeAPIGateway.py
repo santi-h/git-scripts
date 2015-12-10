@@ -79,6 +79,11 @@ class WrikeAPIGateway(APIGateway):
       'id': {
         'path': '/ids',
         'method': 'GET'
+      },
+      'create_comment_in_task_v3': {
+        'path': '/tasks/{idv3}/comments',
+        'method': 'POST',
+        'valid_status': [200]
       }
     }
 
