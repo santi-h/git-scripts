@@ -1,0 +1,10 @@
+# Removes branches merged to the current one
+
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+MERGED=`echo "$(git branch --merged)" | tr -d '*'`
+
+for branch in $MERGED; do
+  if [[ $branch != $CURRENT_BRANCH ]]; then
+    git branch -d $branch
+  fi
+done
