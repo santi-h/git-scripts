@@ -12,6 +12,7 @@ parser.add_argument("-b", "--body")
 args = parser.parse_args()
 
 title = None
+params = None
 if args.title is not None:
   if len(args.title) < 5:
     print "The title should be 5 characters or longer"
@@ -31,17 +32,18 @@ branch = Helper.push_private()
 api = GithubAPIGateway(token=os.environ['GITHUB_TOKEN'])
 owner, repo = Helper.owner_and_repo()
 if title is None:
-  issue = api.call('list_issue', owner=owner, repo=repo, number=issue_number)[0]
-  title = '{0} {1}'.format(issue_number, issue['title'])
+  issue, status = api.call('list_issue', owner=owner, repo=repo, number=issue_number)
+  if status == 200:
+    params = urllib.urlencode({
+      'title': '{0} {1}'.format(issue_number, issue['title']),
+      'body': body
+    })
 
 url = "https://github.com/{owner}/{repo}/compare/{branch}?expand=1&{params}".format(
   owner = owner,
   repo = repo,
   branch = branch,
-  params = urllib.urlencode({
-    'title': title,
-    'body': body
-  })
+  params = params
 )
 
 webbrowser.open(url)
