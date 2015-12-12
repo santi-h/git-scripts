@@ -6,7 +6,8 @@ class CircleCiAPIGateway(APIGateway):
     self._api = {
       'recent_branch_builds': {
         'path': '/project/{username}/{project}/tree/{branch}',
-        'method': 'GET'
+        'method': 'GET',
+        'valid_status': [200]
       },
       'cancel_build': {
         'path': '/project/{username}/{project}/{build_num}/cancel',

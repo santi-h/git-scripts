@@ -15,7 +15,8 @@ class GithubAPIGateway(APIGateway):
       },
       'user': {
         'path': '/user',
-        'method': 'GET'
+        'method': 'GET',
+        'valid_status': [200]
       },
       'create_issue': {
         'path': '/repos/{owner}/{repo}/issues',
@@ -38,6 +39,11 @@ class GithubAPIGateway(APIGateway):
       },
       'list_issue_comments': {
         'path': '/repos/{owner}/{repo}/issues/{number}/comments',
+        'method': 'GET',
+        'valid_status': [200]
+      },
+      'list_pr_commits': {
+        'path': '/repos/{owner}/{repo}/pulls/{number}/commits',
         'method': 'GET',
         'valid_status': [200]
       }

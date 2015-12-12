@@ -37,3 +37,30 @@ def push_private():
   remote = repo.remotes['origin']
   remote.push([repo.active_branch, '-f'])
   return repo.active_branch
+
+def local_sha(branch=current_branch()):
+  g = git.Repo(os.getcwd()).git
+  return g.rev_parse(branch)
+
+def has_conflicts():
+  g = git.Repo(os.getcwd()).git
+  exception_raised = False
+  res = None
+  try:
+    res = g.merge('master', no_commit=True, no_ff=True)
+  except git.exc.GitCommandError:
+    exception_raised = True
+
+  if res != 'Already up-to-date.':
+    g.merge(abort=True)
+
+  return exception_raised
+
+def origin_sha(branch=current_branch()):
+  g = git.Repo(os.getcwd()).git
+  return re.search(r'^([^\s]+)\s', g.ls_remote(['origin', branch])).group(1)
+
+def branch_contains(branch='master'):
+  g = git.Repo(os.getcwd()).git
+  return current_branch() in g.branch(contains='master').split()
+
