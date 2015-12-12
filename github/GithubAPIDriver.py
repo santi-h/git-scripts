@@ -24,7 +24,7 @@ class GithubAPIDriver(object):
     ret = self._api.call('list_issue', owner=self._owner, repo=self._repo, number=issue_number)[0]
     return ret
 
-  def get_current_pr_comments(self):
+  def get_pr_comments(self):
     pr = self.get_open_pr()
     if pr is not None:
       return self._api.call('list_issue_comments', owner=self._owner, repo=self._repo, number=pr['number'])[0]
