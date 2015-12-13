@@ -1,40 +1,10 @@
 from GithubAPIDriver import GithubAPIDriver
 from GithubLGModule import get_lg_data
 from CircleCiAPIDriver import CircleCiAPIDriver
+from StatusPrinter import StatusPrinter
 import Helper
 import sys
 import re
-
-WARNING = u'\U00002622'
-CHECK = u'\U00002705'
-ERROR = u'\U000026D4'
-
-class StatusPrinter(object):
-  STATUS_LEN = 50
-
-  def __init__(self):
-    self.errors = 0
-    self.warnings = 0
-    self.last_process_msg_length = 0
-
-  def print_process(self, msg):
-    sys.stdout.write(msg + ('.' * (StatusPrinter.STATUS_LEN - len(msg))))
-    sys.stdout.flush()
-
-  def print_error(self, msg):
-    print u"{0}  {1}".format(ERROR, msg)
-    self.errors += 1
-
-  def print_check(self, msg=''):
-    print u"{0}  {1}".format(CHECK, msg).strip()
-
-  def print_warning(self, msg):
-    print u"{0}  {1}".format(WARNING, msg)
-    self.warnings += 1
-
-  def _print(self, msg):
-    sys.stdout.write('.' * (StatusPrinter.STATUS_LEN - self.last_process_msg_length))
-    print msg
 
 circle_driver = CircleCiAPIDriver()
 github_driver = GithubAPIDriver()
@@ -66,7 +36,7 @@ else:
   printer.print_check()
 
 ###################################################################################################
-# CHECK FOR CONFLICTS WITH MASTER
+# CHECK FOR UNBROUGHT CHANGES FROM MASTER
 ###################################################################################################
 printer.print_process('Checking for unbrought in changes in master')
 if not Helper.branch_contains('master'):

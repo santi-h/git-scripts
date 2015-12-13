@@ -16,7 +16,9 @@ class APIGateway(object):
     if self.method(api) == 'GET':
       result = requests.get(self.api_full_path(api, **args), headers=self._common_headers, params=params)
     elif self.method(api) == 'POST':
-      result = requests.post(self.api_full_path(api, **args), headers=self._common_headers, json=args.get('data'), params=params)
+      result = requests.post(self.api_full_path(api, **args), headers=self._common_headers, params=params, json=args.get('data'))
+    elif self.method(api) == 'PUT':
+      result = requests.put(self.api_full_path(api, **args), headers=self._common_headers, params=params, json=args.get('data'))
 
     ret = None
     status = None

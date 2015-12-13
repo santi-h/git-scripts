@@ -68,6 +68,13 @@ class GithubAPIDriver(object):
     self._cache['pr_commits'] = ret
     return ret
 
+  def merge_pr(self):
+    pr = self.get_open_pr()
+    if pr is not None:
+      return self._api.call('merge_pr', owner=self._owner, repo=self._repo, number=pr['number'], data={})[0]
+    else:
+      return None
+
   def get_user(self):
     ret = self._cache.get('user')
     if ret is not None:

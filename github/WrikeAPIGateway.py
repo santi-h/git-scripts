@@ -74,15 +74,28 @@ class WrikeAPIGateway(APIGateway):
             'type': 'ApiV2Task',
             'params': ['id']
           }
-        ]
+        ],
+        'valid_status': [200]
       },
       'id': {
         'path': '/ids',
-        'method': 'GET'
+        'method': 'GET',
+        'valid_status': [200]
       },
       'create_comment_in_task_v3': {
         'path': '/tasks/{idv3}/comments',
         'method': 'POST',
+        'valid_status': [200]
+      },
+      'modify_task': {
+        'path': '/tasks/{id}',
+        'method': 'PUT',
+        'translate': [
+          {
+            'type': 'ApiV2Task',
+            'params': ['id']
+          }
+        ],
         'valid_status': [200]
       }
     }
@@ -117,10 +130,15 @@ class WrikeAPIGateway(APIGateway):
     if self._api[api].get('translate') is not None:
       for translate in self._api[api]['translate']:
         for param in translate['params']:
-          args[param] = self._call('id', params={
+          ids = self._call('id', params={
             'ids': '[{0}]'.format(args[param]),
             'type': translate['type']
-          })[0]['data'][0]['id']
+          })[0]
+
+          if ids.get('data') is not None and len(ids['data']) > 0:
+            args[param] = ids['data'][0]['id']
+          else:
+            args[param] = None
 
     result, status = super(WrikeAPIGateway, self).call(api, **args)
 

@@ -11,7 +11,7 @@ class GithubAPIGateway(APIGateway):
       'list_issue': {
         'path': '/repos/{owner}/{repo}/issues/{number}',
         'method': 'GET',
-        'valid_status': [200]
+        'valid_status': [200, 404]
       },
       'user': {
         'path': '/user',
@@ -45,6 +45,11 @@ class GithubAPIGateway(APIGateway):
       'list_pr_commits': {
         'path': '/repos/{owner}/{repo}/pulls/{number}/commits',
         'method': 'GET',
+        'valid_status': [200]
+      },
+      'merge_pr': {
+        'path': '/repos/{owner}/{repo}/pulls/{number}/merge',
+        'method': 'PUT',
         'valid_status': [200]
       }
     }

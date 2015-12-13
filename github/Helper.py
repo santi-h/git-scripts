@@ -64,3 +64,15 @@ def branch_contains(branch='master'):
   g = git.Repo(os.getcwd()).git
   return current_branch() in g.branch(contains='master').split()
 
+def delete_origin_branch(branch=current_branch()):
+  if branch == 'master':
+    print 'Cannot remove master'
+    return False
+
+  g = git.cmd.Git(os.getcwd())
+  try:
+    g.execute(['git','push','origin', '--delete', branch])
+  except git.exc.GitCommandError:
+    return False
+
+  return True
